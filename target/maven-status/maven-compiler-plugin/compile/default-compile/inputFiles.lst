@@ -1,0 +1,12 @@
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/DoubtApplication.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthController.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthResponse.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/UserController.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Role.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/User.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/repository/UserRepository.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/JwtAuthenticationToken.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/JwtRequestFilter.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/JwtUtil.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/SecurityConfig.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/service/AuthService.java
