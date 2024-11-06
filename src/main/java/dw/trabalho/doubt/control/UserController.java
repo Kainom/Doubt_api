@@ -54,6 +54,8 @@ public class UserController {
             if (rep.findByUsername(user.getUsername()) != null)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
 
+                Thread.sleep(500);
+
             return new ResponseEntity<>(rep.save(
                     new User(
                             user.getUsername(),
@@ -62,6 +64,13 @@ public class UserController {
                     HttpStatus.CREATED);
 
         } catch (Exception e) {
+            try{
+            Thread.sleep(500);
+
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
