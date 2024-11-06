@@ -26,10 +26,16 @@ public class AuthController {
             System.out.println(user);
             String token = authService.login(user);
             String role = jwtUtil.extractRole(token); // Extrai a role do token
+            Thread.sleep(1000);
             return ResponseEntity.ok(new AuthResponse(token, role)); // Retorna token e role
 
         } catch (Exception e) {
             System.out.println(e);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
             return ResponseEntity.badRequest().body("Invalid username or password");
         }
 
