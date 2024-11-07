@@ -1,4 +1,4 @@
-package dw.trabalho.doubt.service.futebol;
+package dw.trabalho.futebol;
 
 public @interface SpringBootTest {
 
