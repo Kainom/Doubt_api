@@ -8,6 +8,7 @@ C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\model
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\model\Tag.java
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\model\User.java
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\repository\AnswerRepository.java
+C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\repository\JpaRepository.java
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\repository\QuestionRepository.java
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\repository\TagRepository.java
 C:\Users\otavi\Documentos\GitHub\Doubt_api\src\main\java\dw\trabalho\doubt\repository\UserRepository.java

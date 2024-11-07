@@ -38,6 +38,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers("/user/create").permitAll()
             .requestMatchers("/user/**").hasRole("USER")
+            .requestMatchers("/question/**").permitAll()
             .anyRequest().authenticated()
         )
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
