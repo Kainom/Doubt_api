@@ -47,6 +47,10 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<User> createJogador(@RequestBody User user) {
         try {
+
+            if (user.getUsername() == null || user.getPassword() == null || user.getEmail() == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
             auth.encoder(user);
             if (rep.findByEmail(user.getEmail()) != null)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -54,7 +58,7 @@ public class UserController {
             if (rep.findByUsername(user.getUsername()) != null)
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-                Thread.sleep(500);
+            Thread.sleep(500);
 
             return new ResponseEntity<>(rep.save(
                     new User(
@@ -64,10 +68,10 @@ public class UserController {
                     HttpStatus.CREATED);
 
         } catch (Exception e) {
-            try{
-            Thread.sleep(500);
+            try {
+                Thread.sleep(500);
 
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 

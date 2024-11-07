@@ -20,8 +20,15 @@ public class JwtUtil {
         Date exp = new Date(nowMillis + expiration);
 
         @SuppressWarnings("deprecation")
-        JwtBuilder builder = Jwts.builder()
-                .setSubject(email)
+        JwtBuilder builder = Jwts.builder()./* setPayload(
+            "{\"sub\": \"" + email + "\", " +
+                    "\"iat\": \"" + nowMillis + "\", " +
+                    "\"exp\": \"" + exp.getTime() + "\", " +
+                    "\"role\": \"" + role + "\"}"
+        )*/
+
+                // Configurações do JWT.
+                 setSubject(email)
                 .claim("role", role)
                 .setIssuedAt(now)
                 .setExpiration(exp)
