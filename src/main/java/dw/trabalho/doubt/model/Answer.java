@@ -16,7 +16,8 @@ import jakarta.persistence.Table;
 public class Answer {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long answer_id;
+    @Column(name = "answer_id")
+    private Long answerId;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
@@ -31,4 +32,55 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Answer() {
+
+    }
+    public Answer(Question question, String text, Date timestamp, User user) {
+        this.question = question;
+        this.text = text;
+        this.timestamp = timestamp;
+        this.user = user;
+    
+    }
+    public Long getAnswerId() {
+        return answerId;
+    }
+    public void setAnswerId(Long answer_id) {
+        this.answerId = answer_id;
+    }
+    public Question getQuestion() {
+        return question;
+    }
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+    public String getText() {
+        return text;
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+    public Date getTimestamp() {
+        return timestamp;
+    }
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "answer_id=" + answerId +
+                ", question=" + question +
+                ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
+                ", user=" + user +
+                '}';
+    }
 }

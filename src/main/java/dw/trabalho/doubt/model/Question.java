@@ -1,11 +1,12 @@
 package dw.trabalho.doubt.model;
 
 import java.util.Date;
-import java.util.ArrayList;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +24,8 @@ import jakarta.persistence.TemporalType;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long question_id;
+    @Column(name = "question_id")
+    private long questionId;
 
     @Column(nullable = false)
     private boolean answered;
@@ -34,16 +36,16 @@ public class Question {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "question_tag",
         joinColumns = @JoinColumn(name="question_id", referencedColumnName = "question_id"),
         inverseJoinColumns = @JoinColumn(name="tag_id", referencedColumnName = "tag_id")
     )
-    private ArrayList<Tag> tags;
+    private Set<Tag> tags;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private ArrayList<Answer> answers;
+    private Set<Answer> answers;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,4 +54,68 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Question() {
+
+    }
+
+    public Question(boolean answered, String title, String description, Set<Tag> tags, Set<Answer> answers, Date timestamp, User user) {
+        this.answered = answered;
+        this.title = title;
+        this.description = description;
+        this.tags = tags;
+        this.answers = answers;
+        this.timestamp = timestamp;
+        this.user = user;
+    
+    }
+    public long getQuestionId() {
+        return questionId;
+    }
+    public void setQuestionId(long question_id) {
+        this.questionId = question_id;
+    }
+    public boolean isAnswered() {
+        return answered;
+    }
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public Set<Tag> getTags() {
+        return tags;
+    }
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+    public Date getTimestamp() {
+        return timestamp;
+    }
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+        
 }
