@@ -1,5 +1,8 @@
 package dw.trabalho.doubt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,9 +14,11 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String username;
+    
     private String password;
     private String email;
     private final String role = Role.USER;
@@ -38,12 +43,12 @@ public class User {
 
 
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;  
     }
 
-    public void setUser_id(Long id) {
-        this.user_id = id;
+    public void setUserId(Long id) {
+        this.userId = id;
     }
     public String getUsername() {
         return username;
@@ -70,7 +75,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + user_id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

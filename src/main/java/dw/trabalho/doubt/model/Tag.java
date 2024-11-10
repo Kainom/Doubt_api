@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +28,15 @@ public class Tag {
     @Column(name="tag_name",nullable = false, length = 30,unique = true)
     private String tagName;
 
-    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags",
+    cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.DETACH,
+        CascadeType.REFRESH
+    }
+    )
     private Set<Question> questions = null;
 
     public Tag() {
@@ -57,7 +70,7 @@ public class Tag {
 
 
 
-    public void addQuestion(Question question) {
+    public void add(Question question) {
         if (questions == null) {
             questions = new HashSet<>();
         }

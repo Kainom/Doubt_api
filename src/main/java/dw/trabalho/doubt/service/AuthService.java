@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import dw.trabalho.doubt.control.dto.UserDto;
 import dw.trabalho.doubt.model.User;
 import dw.trabalho.doubt.repository.UserRepository;
 import dw.trabalho.doubt.security.JwtUtil;
@@ -26,12 +27,18 @@ public class AuthService {
 
 
 
-    public String   login(User userPar) {
+    public String   login(User userPar,UserDto userDto) {
         User user = userRepository.findByEmail(userPar.getEmail());
 
         if(user == null){
             throw new RuntimeException("user not found");
         }
+        
+        userDto.setUserId(user.getUserId());
+        userDto.setUsername(user.getUsername());
+        userDto.setEmail(user.getEmail());
+
+     
         System.out.println("Hello World");
         if(!passwordEncoder.matches(userPar.getPassword(), user.getPassword())){
             System.out.println(user.getPassword());

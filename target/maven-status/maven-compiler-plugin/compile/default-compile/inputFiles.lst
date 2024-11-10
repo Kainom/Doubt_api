@@ -1,8 +1,12 @@
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/DoubtApplication.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AnswerController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthResponse.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/QuestionController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/TagController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/UserController.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/TagAdditionRequestDto.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/UserDto.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Answer.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Question.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Role.java

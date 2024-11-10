@@ -3,6 +3,11 @@ package dw.trabalho.doubt.model;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +41,7 @@ public class Question {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER ,cascade =  CascadeType.ALL)
     @JoinTable(
         name = "question_tag",
         joinColumns = @JoinColumn(name="question_id", referencedColumnName = "question_id"),
@@ -52,7 +57,7 @@ public class Question {
     private Date timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "usuario_id")
     private User user;
 
     public Question() {
@@ -117,5 +122,25 @@ public class Question {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getQuestions().add(this);
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionId=" + questionId +
+                ", answered=" + answered +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", tags=" + tags +
+                ", answers=" + answers +
+                ", timestamp=" + timestamp +
+                ", user=" + user +
+                '}';
+        }
         
 }
