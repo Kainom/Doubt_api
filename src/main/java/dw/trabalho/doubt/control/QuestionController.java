@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -185,6 +186,19 @@ public class QuestionController {
             existingQuestion.getTimestamp(),
             existingQuestion.getQuestionId());
         return ResponseEntity.ok(questionDto);
+    }
+
+
+    @DeleteMapping("/{questionId}")
+    public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {
+        Question existingQuestion = questionRepository.findById(questionId).orElse(null);
+
+        if (existingQuestion == null)
+            return ResponseEntity.notFound().build();
+
+        questionRepository.delete(existingQuestion);
+        return ResponseEntity.ok().build();
+
     }
 
 }

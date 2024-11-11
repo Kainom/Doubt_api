@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,10 +55,14 @@ public class AnswerController {
     public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer) {
         System.out.println(answer);
         Question question = questionRepository.findById(answer.getQuestion().getQuestionId()).orElse(null);
-
         if (question == null) {
             return ResponseEntity.badRequest().build();
         }
+
+        if(question.getUser().getUserId()!= answer.getUser().getUserId())
+        return ResponseEntity.status(403).build();
+
+
         answer.setTimestamp(new Date());
         question.setAnswered(true);
         questionRepository.save(question);
@@ -76,5 +81,17 @@ public class AnswerController {
             existingAnswer.setText(answer.getText());
 
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{answerId}")
+    public ResponseEntity<Void> deleteAnswer(@PathVariable Long answerId) {
+        Answer answer = answerRepository.findById(answerId).orElse(null);
+
+        if (answer == null)
+            return ResponseEntity.notFound().build();
+
+        answerRepository.delete(answer);
+        return ResponseEntity.noContent().build();
+
     }
 }

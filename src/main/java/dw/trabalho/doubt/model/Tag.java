@@ -36,7 +36,7 @@ public class Tag {
         CascadeType.PERSIST,
         CascadeType.MERGE,
         CascadeType.DETACH,
-        CascadeType.REFRESH
+        CascadeType.REFRESH,
     }
     )
     private Set<Question> questions = null;

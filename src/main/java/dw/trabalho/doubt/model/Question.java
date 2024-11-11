@@ -41,7 +41,7 @@ public class Question {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER /*,cascade = CascadeType.ALL*/)
     @JoinTable(name = "question_tag", joinColumns = @JoinColumn(name = "question_id", referencedColumnName = "question_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private Set<Tag> tags;
 
