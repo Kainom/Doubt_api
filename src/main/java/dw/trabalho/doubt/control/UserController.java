@@ -47,7 +47,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<UserDto> createUser(@RequestBody User user) {
-        try {   
+        try {
 
             System.out.println(user);
             auth.encoder(user);
@@ -57,19 +57,16 @@ public class UserController {
             if (rep.findByUsername(user.getUsername()) != null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-
-              User newUser =   rep.save(
+            User newUser = rep.save(
                     new User(
                             user.getUsername(),
                             user.getPassword(),
-                            user.getEmail()))
-                            ;
-                UserDto userDto = new UserDto(
+                            user.getEmail()));
+
+            UserDto userDto = new UserDto(
                     newUser.getUserId(),
                     newUser.getUsername(),
-                    newUser.getEmail()
-                );
-
+                    newUser.getEmail());
 
             return new ResponseEntity<>(userDto,
                     HttpStatus.CREATED);

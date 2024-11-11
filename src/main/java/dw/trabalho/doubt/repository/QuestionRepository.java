@@ -14,7 +14,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     public Question findByDescription(String description);
 
-    // public List<Question> findByUserId(Long userId);
+    @Query("SELECT q FROM Question q WHERE q.user.id = :userId")
+    List<Question> findQuestionsByUserId(@Param("userId") Long userId);
+
     @Query(value = "SELECT q FROM Question q JOIN q.tags t WHERE t IN :tags", nativeQuery = true)
     public List<Question> findByTagsIn(List<Tag> tags);
 
@@ -26,6 +28,19 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Query(value = "SELECT * FROM question q WHERE q.title LIKE CONCAT('%', :searchText, '%')", nativeQuery = true)
     List<Question> findQuestionsContainingText(@Param("searchText") String searchText);
+
+    @Query(value = "SELECT * FROM question q WHERE q.title LIKE CONCAT('%', :searchText, '%') AND q.user_id = :userId", nativeQuery = true)
+    List<Question> findQuestionsContainingTextByUser(@Param("searchText") String searchText,
+            @Param("userId") Long userId);
+
+
+            @Query("SELECT DISTINCT q FROM Question q JOIN q.tags t " +
+            "WHERE (q.title LIKE CONCAT('%', :search, '%') " +
+            "OR t.tagName LIKE CONCAT('%', :search, '%')) " +
+            "AND q.user.id = :userId")
+     List<Question> findQuestionsByTitleOrTag(@Param("search") String search, @Param("userId") Long userId);
+     
+
 
     @Query("SELECT q FROM Question q JOIN q.tags t WHERE t.tagName = :name")
     List<Question> findByTagName(@Param("name") String name);

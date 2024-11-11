@@ -41,14 +41,11 @@ public class Question {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER ,cascade =  CascadeType.ALL)
-    @JoinTable(
-        name = "question_tag",
-        joinColumns = @JoinColumn(name="question_id", referencedColumnName = "question_id"),
-        inverseJoinColumns = @JoinColumn(name="tag_id", referencedColumnName = "tag_id")
-    )
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "question_tag", joinColumns = @JoinColumn(name = "question_id", referencedColumnName = "question_id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "tag_id"))
     private Set<Tag> tags;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private Set<Answer> answers;
 
@@ -64,7 +61,8 @@ public class Question {
 
     }
 
-    public Question(boolean answered, String title, String description, Set<Tag> tags, Set<Answer> answers, Date timestamp, User user) {
+    public Question(boolean answered, String title, String description, Set<Tag> tags, Set<Answer> answers,
+            Date timestamp, User user) {
         this.answered = answered;
         this.title = title;
         this.description = description;
@@ -72,53 +70,69 @@ public class Question {
         this.answers = answers;
         this.timestamp = timestamp;
         this.user = user;
-    
+
     }
+
     public long getQuestionId() {
         return questionId;
     }
+
     public void setQuestionId(long question_id) {
         this.questionId = question_id;
     }
+
     public boolean isAnswered() {
         return answered;
     }
+
     public void setAnswered(boolean answered) {
         this.answered = answered;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Set<Tag> getTags() {
         return tags;
     }
+
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
+
     public Set<Answer> getAnswers() {
         return answers;
     }
+
     public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
     }
+
     public Date getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
     public User getUser() {
         return user;
     }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -128,7 +142,6 @@ public class Question {
         tag.getQuestions().add(this);
     }
 
-    
     @Override
     public String toString() {
         return "Question{" +
@@ -141,6 +154,6 @@ public class Question {
                 ", timestamp=" + timestamp +
                 ", user=" + user +
                 '}';
-        }
-        
+    }
+
 }

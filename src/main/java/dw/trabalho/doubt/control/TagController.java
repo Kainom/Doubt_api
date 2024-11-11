@@ -22,18 +22,19 @@ public class TagController {
     @Autowired
     private TagRepository tagRepository;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Tag>> getAllTags() {
-        List<Tag> tags = tagRepository.findAll();
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<Tag>> getAllTags(@PathVariable Long id) {
+        List<Tag> tags = tagRepository.findAllByUserId(id);
         if (tags.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(tags);
     }
 
-    @GetMapping("/{tagName}")
-    public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName) {
-        Tag tag = tagRepository.findByTagName(tagName);
+    @GetMapping("/{tagName}/{id}")
+    public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName,
+    @PathVariable Long id){
+        Tag tag = tagRepository.findByUserAndTagName(id,tagName);
         if (tag == null) {
             return ResponseEntity.notFound().build();
         }
@@ -45,24 +46,34 @@ public class TagController {
 
         if (tag.getTagName() == null)
             return ResponseEntity.badRequest().body("Tag name cannot be null or empty");
+        if (tag.getUser() == null)
+            return ResponseEntity.badRequest().body("User cannot be null");
 
-        Tag existingTag = tagRepository.findByTagName(tag.getTagName());
+        System.out.println(tag.getUser());
+
+        // Tag existingTag = tagRepository.findByTagName(tag.getTagName());
+         Tag existingTag =
+        tagRepository.findByUserAndTagName(tag.getUser().getUserId(),tag.getTagName());
+        // List<Tag> existingTag = tagRepository.findByUser(tag.getUser());
+        // Boolean exists = existingTag.stream().anyMatch(t -> t.getTagName().equals(tag.getTagName()));
+
         if (existingTag != null)
             return ResponseEntity.badRequest().body("Tag already exists");
 
         return ResponseEntity.ok(tagRepository.save(tag));
     }
 
-    @PutMapping("/{tagName}")
-    public ResponseEntity<? extends Object> updateTag(@PathVariable String tagName, @RequestBody Tag tag) {
-        Tag existingTag = tagRepository.findByTagName(tagName);
+    @PutMapping("/{tagName}/{id}")
+    public ResponseEntity<? extends Object> updateTag(@PathVariable String tagName, 
+    @PathVariable Long id,
+    @RequestBody Tag tag) {
+        Tag existingTag = tagRepository.findByUserAndTagName(id,tagName);
 
         if (tag.getTagName() == null)
             return ResponseEntity.badRequest().body("Tag name cannot be null or empty");
 
-        if (tagRepository.findByTagName(tag.getTagName()) != null)
-        return ResponseEntity.badRequest().body("Tag already exists");
-
+        if (tagRepository.findByUserAndTagName(id,tag.getTagName()) != null)
+            return ResponseEntity.badRequest().body("Tag already exists");
 
         if (existingTag == null)
             return ResponseEntity.notFound().build();

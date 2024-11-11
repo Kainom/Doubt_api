@@ -20,15 +20,14 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         try {
             UserDto userDto = new UserDto(); // Cria um UserDto com os dados do user
-            String token = authService.login(user,userDto);
+            String token = authService.login(user, userDto);
             String role = jwtUtil.extractRole(token); // Extrai a role do token
             Thread.sleep(1000);
-            return ResponseEntity.ok(new AuthResponse(token, role,userDto)); // Retorna token e role
+            return ResponseEntity.ok(new AuthResponse(token, role, userDto)); // Retorna token e role
 
         } catch (Exception e) {
             System.out.println(e);
@@ -42,5 +41,4 @@ public class AuthController {
 
     }
 
-  
 }
