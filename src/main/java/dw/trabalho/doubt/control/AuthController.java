@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import dw.trabalho.doubt.control.dto.UserDto;
 import dw.trabalho.doubt.model.User;
 import dw.trabalho.doubt.security.JwtUtil;
 import dw.trabalho.doubt.service.AuthService;
@@ -19,15 +20,14 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         try {
-            System.out.println(user);
-            String token = authService.login(user);
+            UserDto userDto = new UserDto(); // Cria um UserDto com os dados do user
+            String token = authService.login(user, userDto);
             String role = jwtUtil.extractRole(token); // Extrai a role do token
             Thread.sleep(1000);
-            return ResponseEntity.ok(new AuthResponse(token, role)); // Retorna token e role
+            return ResponseEntity.ok(new AuthResponse(token, role, userDto)); // Retorna token e role
 
         } catch (Exception e) {
             System.out.println(e);
@@ -41,5 +41,4 @@ public class AuthController {
 
     }
 
-  
 }

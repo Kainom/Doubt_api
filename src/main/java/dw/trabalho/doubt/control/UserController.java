@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dw.trabalho.doubt.control.dto.UserDto;
 import dw.trabalho.doubt.model.User;
 import dw.trabalho.doubt.repository.UserRepository;
 import dw.trabalho.doubt.service.AuthService;
@@ -30,7 +31,7 @@ public class UserController {
     // http://localhost:8000/futebol/jogador
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getJogadorById(@PathVariable("id") long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
         Optional<User> user = rep.findById(id);
 
         try {
@@ -45,20 +46,29 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createJogador(@RequestBody User user) {
+    public ResponseEntity<UserDto> createUser(@RequestBody User user) {
         try {
+
+            System.out.println(user);
             auth.encoder(user);
             if (rep.findByEmail(user.getEmail()) != null)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             if (rep.findByUsername(user.getUsername()) != null)
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-            return new ResponseEntity<>(rep.save(
+            User newUser = rep.save(
                     new User(
                             user.getUsername(),
                             user.getPassword(),
-                            user.getEmail())),
+                            user.getEmail()));
+
+            UserDto userDto = new UserDto(
+                    newUser.getUserId(),
+                    newUser.getUsername(),
+                    newUser.getEmail());
+
+            return new ResponseEntity<>(userDto,
                     HttpStatus.CREATED);
 
         } catch (Exception e) {
@@ -67,7 +77,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateJogador(@PathVariable("id") long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         Optional<User> userOld = rep.findById(id);
 
         try {
@@ -86,7 +96,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> patchJogador(@PathVariable("id") long id, @RequestBody User user) {
+    public ResponseEntity<User> patchUser(@PathVariable("id") long id, @RequestBody User user) {
         Optional<User> oldUser = rep.findById(id);
         try {
             if (oldUser.isPresent()) {
@@ -108,7 +118,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteJogador(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
         try {
             if (rep.findById(id).isPresent()) {
                 rep.deleteById(id);
@@ -121,13 +131,4 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<HttpStatus> deleteJogador() {
-        try {
-            rep.deleteAll();
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

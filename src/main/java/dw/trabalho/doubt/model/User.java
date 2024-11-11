@@ -1,5 +1,8 @@
 package dw.trabalho.doubt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,58 +14,69 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String username;
+
     private String password;
     private String email;
     private final String role = Role.USER;
 
-
-    public  User(){
+    public User() {
     }
 
-    public User(String username, String password, String email){
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
     }
 
-
- public User( String password, String email){
+    public User(String password, String email) {
         this.password = password;
         this.email = email;
     }
 
-
-
-
-
-    public Long getUser_id() {
-        return user_id;
+    public User(Long id,String username, String email) {
+        this.password = username;
+        this.email = email;
+        this.userId = id;
     }
 
-    public void setUser_id(Long id) {
-        this.user_id = id;
+
+
+    public Long getUserId() {
+        return userId;
     }
+
+    public void setUserId(Long id) {
+        this.userId = id;
+    }
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getRole() {
         return role;
     }
@@ -70,12 +84,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + user_id +
+                "id=" + userId +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
 
-    
 }
