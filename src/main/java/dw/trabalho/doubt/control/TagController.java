@@ -52,10 +52,10 @@ public class TagController {
         System.out.println(tag.getUser());
 
         // Tag existingTag = tagRepository.findByTagName(tag.getTagName());
-         Tag existingTag =
-        tagRepository.findByUserAndTagName(tag.getUser().getUserId(),tag.getTagName());
+         Tag existingTag = tagRepository.findByUserAndTagName(tag.getUser().getUserId(),tag.getTagName());
         // List<Tag> existingTag = tagRepository.findByUser(tag.getUser());
         // Boolean exists = existingTag.stream().anyMatch(t -> t.getTagName().equals(tag.getTagName()));
+
 
         if (existingTag != null)
             return ResponseEntity.badRequest().body("Tag already exists");

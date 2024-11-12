@@ -22,6 +22,7 @@ public class User {
     private String password;
     private String email;
     private final String role = Role.USER;
+    private String about;
 
     public User() {
     }
@@ -76,10 +77,17 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getAbout() {
+        return about;
+    }
+    public void setAbout(String about) {
+        this.about = about;
+    }   
 
     public String getRole() {
         return role;
     }
+
 
     @Override
     public String toString() {
