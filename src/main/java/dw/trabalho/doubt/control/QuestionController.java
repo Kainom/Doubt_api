@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,15 +53,37 @@ public class QuestionController {
 
             questionDtos.add(new QuestionAllDto(
                     question.getQuestionId(), question.getTitle(), question.getDescription(), question.getTags(),
-                    question.getTimestamp(),question.isAnswered()));
+                    question.getTimestamp(), question.isAnswered()));
         }
-
 
         return ResponseEntity.ok(questionDtos);
     }
 
+    @GetMapping("/single/{id}")
+    public ResponseEntity<QuestionAllDto> getQuestionById(@PathVariable Long id) {
+        try {
+            Question question = questionRepository.findById(id).orElse(null);
+            
+            if (question == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            QuestionAllDto questionDto = new QuestionAllDto(
+                question.getQuestionId(), question.getTitle(),
+                question.getDescription(), question.getTags(),
+                question.getTimestamp(), question.isAnswered()
+            );
+
+            return ResponseEntity.ok(questionDto);
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<List<QuestionAllDto>> questionByTitle(@RequestParam String search, @PathVariable Long id) {   
+    public ResponseEntity<List<QuestionAllDto>> questionByTitle(@RequestParam String search, @PathVariable Long id) {
         List<Question> questions = questionRepository.findQuestionsByTitleOrTag(search, id);
         System.out.println(search);
         if (questions.isEmpty()) {
@@ -72,7 +96,7 @@ public class QuestionController {
                         question.getTitle(),
                         question.getDescription(),
                         question.getTags(),
-                        question.getTimestamp(),question.isAnswered()))
+                        question.getTimestamp(), question.isAnswered()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(questionDtos);
@@ -81,6 +105,7 @@ public class QuestionController {
 
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
+        System.out.println(question);
 
         if (question.getTitle() == null || question.getDescription() == null)
             return ResponseEntity.badRequest().body("Title and description cannot be null or empty");
@@ -169,25 +194,23 @@ public class QuestionController {
             existingQuestion.setTitle(question.getTitle());
 
         if (!(existingQuestion.getTags().equals(tags)))
-        existingQuestion.setTags(tags);
+            existingQuestion.setTags(tags);
 
-        if(!(existingQuestion.getDescription().equals(question.getDescription())))
-        existingQuestion.setDescription(question.getDescription());
-
+        if (!(existingQuestion.getDescription().equals(question.getDescription())))
+            existingQuestion.setDescription(question.getDescription());
 
         existingQuestion.setTimestamp(new Date());
         questionRepository.save(existingQuestion);
 
         QuestionDto questionDto = new QuestionDto(
-            existingQuestion.isAnswered(),
-            existingQuestion.getTitle(),
-            existingQuestion.getDescription(),
-            existingQuestion.getTags(),
-            existingQuestion.getTimestamp(),
-            existingQuestion.getQuestionId());
+                existingQuestion.isAnswered(),
+                existingQuestion.getTitle(),
+                existingQuestion.getDescription(),
+                existingQuestion.getTags(),
+                existingQuestion.getTimestamp(),
+                existingQuestion.getQuestionId());
         return ResponseEntity.ok(questionDto);
     }
-
 
     @DeleteMapping("/{questionId}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {

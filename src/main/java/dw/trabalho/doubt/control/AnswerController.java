@@ -3,6 +3,7 @@ package dw.trabalho.doubt.control;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -87,11 +88,24 @@ public class AnswerController {
     public ResponseEntity<Void> deleteAnswer(@PathVariable Long answerId) {
         Answer answer = answerRepository.findById(answerId).orElse(null);
 
-        if (answer == null)
+        if (answer == null){
             return ResponseEntity.notFound().build();
+        }
 
-        answerRepository.delete(answer);
+        Question question = questionRepository.findById(answer.getQuestion().getQuestionId()).orElse(null);
+        if (question == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        answerRepository.deleteById(answerId);
+
+        Set<Answer> answerSet = question.getAnswers();
+        if(answerSet == null || answerSet.size() == 0){
+            question.setAnswered(false);
+            System.out.println(question);
+            questionRepository.save(question);
+        }
+
         return ResponseEntity.noContent().build();
-
     }
 }
