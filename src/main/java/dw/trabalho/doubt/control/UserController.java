@@ -56,6 +56,13 @@ public class UserController {
 
             if (rep.findByUsername(user.getUsername()) != null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            
+            if(user.getPassword().equals(""))
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            
+            if(user.getEmail().equals(""))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 
             User newUser = rep.save(
                     new User(

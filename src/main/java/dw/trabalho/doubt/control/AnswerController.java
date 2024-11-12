@@ -81,6 +81,9 @@ public class AnswerController {
         if (!(existingAnswer.getText().equals(answer.getText())))
             existingAnswer.setText(answer.getText());
 
+        existingAnswer.setTimestamp(new Date());
+        answerRepository.save(existingAnswer);
+
         return ResponseEntity.ok().build();
     }
 
