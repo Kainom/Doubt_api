@@ -89,6 +89,7 @@ public class AnswerController {
         Answer answer = answerRepository.findById(answerId).orElse(null);
 
         if (answer == null){
+
             return ResponseEntity.notFound().build();
         }
 

@@ -105,28 +105,30 @@ public class QuestionController {
 
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
-        System.out.println(question);
 
-        if (question.getTitle() == null || question.getDescription() == null)
+       System.out.println(question);
+        if (question.getTitle().equals("") || question.getDescription().equals(""))
             return ResponseEntity.badRequest().body("Title and description cannot be null or empty");
 
-        if (question.getUser() == null)
+        if (question.getUser().equals(null))
             return ResponseEntity.badRequest().body("User cannot be null");
 
-        System.out.println(question.getTags());
         Set<Tag> tags = new HashSet<>();
 
-        if (question.getTags() != null) {
+        if (question.getTags().equals(null) && question.getTags().size() == 0 ) {
             for (Tag tagName : question.getTags()) {
                 Tag tag = tagRepository.findByTagName(tagName.getTagName());
-                if (tag == null)
-                    return ResponseEntity.badRequest().body("Tag not found: " + tagName.getTagName());
-                tags.add(tag);
+                if (tag == null) return ResponseEntity.badRequest().body("Tag not found: " + tagName.getTagName());
+                question.addTag(tag);
             }
         }
+        System.out.println(question.getTags().size());
+        // existingQuestion.getTags().add(tagRepository.findByTagName(requestDto.getTagName()));
 
-        question.setTags(tags);
+
+
         question.setTimestamp(new Date());
+
         questionRepository.save(question);
 
         QuestionDto questionDto = new QuestionDto(
@@ -151,7 +153,6 @@ public class QuestionController {
     }
 
     @PostMapping("/tag")
-
     public ResponseEntity<?> addTagToQuestion(@RequestBody TagAdditionRequestDto requestDto) {
         Question existingQuestion = questionRepository.findById(requestDto.getQuestionId()).orElse(null);
 
