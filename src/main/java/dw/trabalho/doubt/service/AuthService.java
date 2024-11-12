@@ -25,7 +25,10 @@ public class AuthService {
         User user = userRepository.findByEmail(userPar.getEmail());
 
         if (user == null) {
-            throw new RuntimeException("user not found");
+            user = userRepository.findByUsername(userPar.getEmail());
+            if (user == null){
+                throw new RuntimeException("user not found");
+            }
         }
 
         userDto.setUserId(user.getUserId());

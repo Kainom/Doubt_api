@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dw.trabalho.doubt.control.dto.UserDto;
+import dw.trabalho.doubt.control.dto.UserProfileDto;
 import dw.trabalho.doubt.model.User;
 import dw.trabalho.doubt.repository.UserRepository;
 import dw.trabalho.doubt.service.AuthService;
@@ -28,20 +29,19 @@ public class UserController {
 
     @Autowired
     AuthService auth;
-    // http://localhost:8000/futebol/jogador
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+    public ResponseEntity<UserProfileDto> getUserById(@PathVariable("id") long id) {
         Optional<User> user = rep.findById(id);
 
-        try {
-            if (user.isPresent()) {
-                return new ResponseEntity<>(user.get(), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (user.isPresent()) {
+            UserProfileDto userDto = new UserProfileDto(
+                    user.get().getUsername(),
+                    user.get().getAbout(),
+                    user.get().getCountry());
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -59,9 +59,14 @@ public class UserController {
 
             User newUser = rep.save(
                     new User(
-                            user.getUsername(),
+                            user.getAbout(),
+                            user.getCountry(),
+                            user.getCreatedDate(),
+                            user.getEmail(),
+                            user.getLoginDate(),
                             user.getPassword(),
-                            user.getEmail()));
+                            user.getUserId(),
+                            user.getUsername()));
 
             UserDto userDto = new UserDto(
                     newUser.getUserId(),
@@ -84,8 +89,8 @@ public class UserController {
             if (userOld.isPresent()) {
                 User novoUser = userOld.get();
                 novoUser.setUsername(user.getUsername());
-                novoUser.setEmail(user.getEmail());
-                novoUser.setPassword(user.getPassword());
+                novoUser.setAbout(user.getAbout());
+                novoUser.setCountry(user.getCountry());
                 return new ResponseEntity<>(rep.save(novoUser), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

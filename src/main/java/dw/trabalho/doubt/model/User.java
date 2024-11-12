@@ -1,6 +1,6 @@
 package dw.trabalho.doubt.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,34 +16,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
-
     private String username;
-
     private String password;
     private String email;
+    private String about;
+    private String country;
+    private Date createdDate;
+    private Date loginDate;
+    
     private final String role = Role.USER;
 
-    public User() {
+    public User(){
+        
     }
 
-    public User(String username, String password, String email) {
+    public User(String about, String country, Date createdDate, String email, Date loginDate, String password, Long userId, String username) {
+        this.userId = userId;
+        this.about = about;
+        this.country = country;
+        this.createdDate = createdDate;
+        this.email = email;
+        this.loginDate = loginDate;
+        this.password = password;
         this.username = username;
-        this.password = password;
-        this.email = email;
     }
-
-    public User(String password, String email) {
-        this.password = password;
-        this.email = email;
-    }
-
-    public User(Long id,String username, String email) {
-        this.password = username;
-        this.email = email;
-        this.userId = id;
-    }
-
-
 
     public Long getUserId() {
         return userId;
@@ -81,14 +77,43 @@ public class User {
         return role;
     }
 
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+    
+    public Date getLoginDate() {
+        return loginDate;
+    }
+
+    public void setLoginDate(Date loginDate) {
+        this.loginDate = loginDate;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
+                + ", about=" + about + ", country=" + country + ", createdDate=" + createdDate + ", loginDate="
+                + loginDate + ", role=" + role + "]";
     }
 
 }
