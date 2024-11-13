@@ -103,6 +103,23 @@ public class QuestionController {
 
     }
 
+    @GetMapping("/last/{userId}")
+    public ResponseEntity<List<QuestionAllDto>> lastQuestions(@PathVariable Long userId) {
+        List<Question> questions = questionRepository.findByLastQuestions(userId);
+
+        List<QuestionAllDto> questionDtos = questions.stream()
+                .map(question -> new QuestionAllDto(
+                        question.getQuestionId(),
+                        question.getTitle(),
+                        question.getDescription(),
+                        question.getTags(),
+                        question.getTimestamp(), question.isAnswered()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(questionDtos);
+
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
 
