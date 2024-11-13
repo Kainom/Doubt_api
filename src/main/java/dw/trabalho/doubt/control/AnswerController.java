@@ -63,6 +63,9 @@ public class AnswerController {
         if(question.getUser().getUserId()!= answer.getUser().getUserId())
         return ResponseEntity.status(403).build();
 
+        if(answer.getText().equals(""))
+        return ResponseEntity.badRequest().build();
+
 
         answer.setTimestamp(new Date());
         question.setAnswered(true);
@@ -77,6 +80,9 @@ public class AnswerController {
 
         if (existingAnswer == null)
             return ResponseEntity.notFound().build();
+
+        if(answer.getText().equals(""))
+        return ResponseEntity.badRequest().build();    
 
         if (!(existingAnswer.getText().equals(answer.getText())))
             existingAnswer.setText(answer.getText());

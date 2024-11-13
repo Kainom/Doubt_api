@@ -24,6 +24,14 @@ public class  TagAdditionRequestDto {
         this.tagName = tagName;
     }
 
+    @Override
+    public String toString() {
+        return "TagAdditionRequestDto{" +
+                "tagName='" + tagName + '\'' +
+                ", questionId=" + questionId +
+                '}';
+    }
+
 
 
 

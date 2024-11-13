@@ -31,7 +31,10 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     public Tag findByUserAndTagName(@Param("userId") Long id,@Param("tagName") String tagName);
 
 
-    public List<Tag> findByUse();
+    // public List<Tag> findByUse();
+
+    // SELECT t.tag_name  from question q INNER JOIN question_tag qt ON q.question_id = qt.question_id INNER JOIN tag t ON t.tag_id = qt.tag_id WHERE t.user_id =1  GROUP BY t.tag_name ORDER BY (COUNT(qt.tag_id))  DESC LIMIT 5;
+
 
     
 }

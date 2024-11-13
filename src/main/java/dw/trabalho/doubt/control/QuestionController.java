@@ -63,19 +63,18 @@ public class QuestionController {
     public ResponseEntity<QuestionAllDto> getQuestionById(@PathVariable Long id) {
         try {
             Question question = questionRepository.findById(id).orElse(null);
-            
+
             if (question == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
             QuestionAllDto questionDto = new QuestionAllDto(
-                question.getQuestionId(), question.getTitle(),
-                question.getDescription(), question.getTags(),
-                question.getTimestamp(), question.isAnswered()
-            );
+                    question.getQuestionId(), question.getTitle(),
+                    question.getDescription(), question.getTags(),
+                    question.getTimestamp(), question.isAnswered());
 
             return ResponseEntity.ok(questionDto);
-        
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -123,7 +122,7 @@ public class QuestionController {
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
 
-       System.out.println(question);
+        System.out.println(question);
         if (question.getTitle().equals("") || question.getDescription().equals(""))
             return ResponseEntity.badRequest().body("Title and description cannot be null or empty");
 
@@ -132,17 +131,16 @@ public class QuestionController {
 
         Set<Tag> tags = new HashSet<>();
 
-        if (question.getTags().equals(null) && question.getTags().size() == 0 ) {
+        if (question.getTags().equals(null) && question.getTags().size() == 0) {
             for (Tag tagName : question.getTags()) {
                 Tag tag = tagRepository.findByTagName(tagName.getTagName());
-                if (tag == null) return ResponseEntity.badRequest().body("Tag not found: " + tagName.getTagName());
+                if (tag == null)
+                    return ResponseEntity.badRequest().body("Tag not found: " + tagName.getTagName());
                 question.addTag(tag);
             }
         }
         System.out.println(question.getTags().size());
         // existingQuestion.getTags().add(tagRepository.findByTagName(requestDto.getTagName()));
-
-
 
         question.setTimestamp(new Date());
 
@@ -169,10 +167,11 @@ public class QuestionController {
         return ResponseEntity.ok(questionRepository.save(existingQuestion));
     }
 
-    @PostMapping("/tag")
+    @PutMapping("/tag")
     public ResponseEntity<?> addTagToQuestion(@RequestBody TagAdditionRequestDto requestDto) {
         Question existingQuestion = questionRepository.findById(requestDto.getQuestionId()).orElse(null);
 
+        System.out.println(requestDto);
         if (existingQuestion == null)
             return ResponseEntity.notFound().build();
 
@@ -183,15 +182,17 @@ public class QuestionController {
         if (existingQuestion.getTags().contains(existingTag))
             return ResponseEntity.ok("Tag already exists in the question");
 
-        existingQuestion.getTags().add(tagRepository.findByTagName(requestDto.getTagName()));
-        return ResponseEntity.ok(questionRepository.save(existingQuestion));
+        existingQuestion.addTag(existingTag);
+
+        questionRepository.save(existingQuestion);
+        return ResponseEntity.ok(existingQuestion.getTags());
     }
 
     @PutMapping("/")
     public ResponseEntity<?> updateQuestion(@RequestBody Question question) {
         Question existingQuestion = questionRepository.findById(question.getQuestionId()).orElse(null);
 
-        if (question.getTitle() == null || question.getDescription() == null)
+        if (question.getTitle().equals("") || question.getDescription().equals(""))
             return ResponseEntity.badRequest().body("Title and description cannot be null or empty");
 
         if (existingQuestion == null)
@@ -199,7 +200,7 @@ public class QuestionController {
 
         Set<Tag> tags = new HashSet<>();
 
-        if (question.getTags() != null) {
+        if ((question.getTags() != null) && question.getTags().size() == 0) {
             for (Tag tagName : question.getTags()) {
                 Tag tag = tagRepository.findByTagName(tagName.getTagName());
                 if (tag == null)
