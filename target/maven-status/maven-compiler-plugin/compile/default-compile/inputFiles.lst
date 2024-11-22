@@ -1,4 +1,6 @@
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/DoubtApplication.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/adapter/IQuenstionAdapter.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/adapter/QuestionAdapter.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AnswerController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/AuthResponse.java
@@ -6,12 +8,12 @@
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/TagController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/UserController.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/AnswerDto.java
-/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/QuestionAdapter.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/QuestionAllDto.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/QuestionDto.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/TagAdditionRequestDto.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/UserDto.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/control/dto/UserProfileDto.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/diretor/QuestionDtoDIrector.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Answer.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Question.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/model/Role.java
@@ -26,3 +28,4 @@
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/JwtUtil.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/security/SecurityConfig.java
 /home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/service/AuthService.java
+/home/kainom/meusprojetos/Doubt_api/src/main/java/dw/trabalho/doubt/service/QuestionService.java
