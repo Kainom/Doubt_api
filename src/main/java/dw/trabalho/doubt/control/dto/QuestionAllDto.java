@@ -7,11 +7,11 @@ import dw.trabalho.doubt.model.Tag;
 
 public class QuestionAllDto {
     private Long questionId;
+    private boolean answered;
     private String title;
     private String description;
     private Set<Tag> tags;
     private Date timestamp;
-    private boolean answered;
 
     public QuestionAllDto(Long questionId, String title, String description, Set<Tag> tags, Date timestamp, boolean answered) {
         this.questionId = questionId;

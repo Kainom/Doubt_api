@@ -6,7 +6,7 @@ import java.util.Set;
 import dw.trabalho.doubt.model.Answer;
 import dw.trabalho.doubt.model.Tag;
 
-public class    QuestionDto {
+public class QuestionDto {
     private Long questionId;
     private boolean answered;
     private String title;
@@ -19,62 +19,15 @@ public class    QuestionDto {
 
     }
 
-    
-
-    public QuestionDto(boolean answered, String title, String description, Set<Tag> tags) {
-        this.answered = answered;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
+    public QuestionDto(Builder builder) {
+        this.answered = builder.answered;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.tags = builder.tags;
+        this.answers = builder.answers;
+        this.timestamp = builder.timestamp;
+        this.questionId = builder.questionId;
     }
-
-    public QuestionDto(Long questionId,String title,String description,Set<Tag> tags, Date timestamp) {
-        this.questionId = questionId;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-        this.timestamp = timestamp;
-    }
-
-
-
-
-    public QuestionDto(boolean answered, String title, String description, Set<Tag> tags,Date timestamp) {
-        this.answered = answered;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-        this.timestamp = timestamp;
-    }
-
-    public QuestionDto(boolean answered, String title, String description, Set<Tag> tags,Date timestamp,Long questionId) {
-        this.answered = answered;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-        this.timestamp = timestamp;
-        this.questionId = questionId;
-    }
-
-    public QuestionDto(boolean answered, String title, String description, Set<Tag> tags,Date timestamp,Long questionId, Set<Answer> answers) {
-        this.answered = answered;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-        this.timestamp = timestamp;
-        this.questionId = questionId;
-        this.answers = answers;
-    }
-
-
-
-
-
-
-
-
-
-  
 
     public Long getQuestionId() {
         return questionId;
@@ -87,16 +40,18 @@ public class    QuestionDto {
     public Set<Answer> getAnswers() {
         return answers;
     }
+
     public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
     }
+
     public Date getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
-
 
     public boolean isAnswered() {
         return answered;
@@ -130,5 +85,53 @@ public class    QuestionDto {
         this.tags = tags;
     }
 
+    public Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long questionId;
+        private boolean answered;
+        private String title;
+        private String description;
+        private Set<Tag> tags; // list of tag names
+        private Set<Answer> answers; // list of answer DTOs
+        private Date timestamp;
+
+        public Builder questionId(Long questionId) {
+            this.questionId = questionId;
+            return this;
+        }
+
+        public Builder answered(boolean answered) {
+            this.answered = answered;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder tags(Set<Tag> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public Builder timestamp(Date timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+        public QuestionDto build() {
+            return new QuestionDto(this);
+        }
+
+    }
 
 }

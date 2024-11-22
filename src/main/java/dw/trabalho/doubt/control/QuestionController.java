@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import dw.trabalho.doubt.adapter.QuestionAdapter;
 import dw.trabalho.doubt.control.dto.QuestionAllDto;
 import dw.trabalho.doubt.control.dto.QuestionDto;
 import dw.trabalho.doubt.control.dto.TagAdditionRequestDto;
@@ -95,7 +96,8 @@ public class QuestionController {
                         question.getTitle(),
                         question.getDescription(),
                         question.getTags(),
-                        question.getTimestamp(), question.isAnswered()))
+                        question.getTimestamp(),
+                        question.isAnswered()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(questionDtos);
@@ -146,13 +148,8 @@ public class QuestionController {
 
         questionRepository.save(question);
 
-        QuestionDto questionDto = new QuestionDto(
-                question.isAnswered(),
-                question.getTitle(),
-                question.getDescription(),
-                question.getTags(),
-                question.getTimestamp(),
-                question.getQuestionId());
+        QuestionAdapter questionAdapter = new QuestionAdapter();
+        QuestionDto questionDto = questionAdapter.tDto(question);
         return ResponseEntity.ok(questionDto);
     }
 
@@ -221,13 +218,9 @@ public class QuestionController {
         existingQuestion.setTimestamp(new Date());
         questionRepository.save(existingQuestion);
 
-        QuestionDto questionDto = new QuestionDto(
-                existingQuestion.isAnswered(),
-                existingQuestion.getTitle(),
-                existingQuestion.getDescription(),
-                existingQuestion.getTags(),
-                existingQuestion.getTimestamp(),
-                existingQuestion.getQuestionId());
+        QuestionAdapter questionAdapter = new QuestionAdapter();
+        QuestionDto questionDto = questionAdapter.tDto(existingQuestion);
+
         return ResponseEntity.ok(questionDto);
     }
 
