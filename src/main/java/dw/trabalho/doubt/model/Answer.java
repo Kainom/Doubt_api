@@ -31,7 +31,7 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 500)
     private String text;
 
     @Column(nullable = false)
