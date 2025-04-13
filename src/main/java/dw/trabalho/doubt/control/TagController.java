@@ -33,8 +33,8 @@ public class TagController {
 
     @GetMapping("/{tagName}/{id}")
     public ResponseEntity<Tag> getTagByTagName(@PathVariable String tagName,
-    @PathVariable Long id){
-        Tag tag = tagRepository.findByUserAndTagName(id,tagName);
+            @PathVariable Long id) {
+        Tag tag = tagRepository.findByUserAndTagName(id, tagName);
         if (tag == null) {
             return ResponseEntity.notFound().build();
         }
@@ -49,13 +49,11 @@ public class TagController {
         if (tag.getUser() == null)
             return ResponseEntity.badRequest().body("User cannot be null");
 
-        System.out.println(tag.getUser());
-
         // Tag existingTag = tagRepository.findByTagName(tag.getTagName());
-         Tag existingTag = tagRepository.findByUserAndTagName(tag.getUser().getUserId(),tag.getTagName());
+        Tag existingTag = tagRepository.findByUserAndTagName(tag.getUser().getUserId(), tag.getTagName());
         // List<Tag> existingTag = tagRepository.findByUser(tag.getUser());
-        // Boolean exists = existingTag.stream().anyMatch(t -> t.getTagName().equals(tag.getTagName()));
-
+        // Boolean exists = existingTag.stream().anyMatch(t ->
+        // t.getTagName().equals(tag.getTagName()));
 
         if (existingTag != null)
             return ResponseEntity.badRequest().body("Tag already exists");
@@ -64,15 +62,15 @@ public class TagController {
     }
 
     @PutMapping("/{tagName}/{id}")
-    public ResponseEntity<? extends Object> updateTag(@PathVariable String tagName, 
-    @PathVariable Long id,
-    @RequestBody Tag tag) {
-        Tag existingTag = tagRepository.findByUserAndTagName(id,tagName);
+    public ResponseEntity<? extends Object> updateTag(@PathVariable String tagName,
+            @PathVariable Long id,
+            @RequestBody Tag tag) {
+        Tag existingTag = tagRepository.findByUserAndTagName(id, tagName);
 
         if (tag.getTagName() == null)
             return ResponseEntity.badRequest().body("Tag name cannot be null or empty");
 
-        if (tagRepository.findByUserAndTagName(id,tag.getTagName()) != null)
+        if (tagRepository.findByUserAndTagName(id, tag.getTagName()) != null)
             return ResponseEntity.badRequest().body("Tag already exists");
 
         if (existingTag == null)

@@ -33,8 +33,6 @@ public class AnswerController {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<AnswerDto>> getAnswerByQuestion(@PathVariable Long id) {
@@ -54,7 +52,6 @@ public class AnswerController {
 
     @PostMapping("/")
     public ResponseEntity<Answer> createAnswer(@RequestBody Answer answer) {
-        System.out.println(answer);
         Question question = questionRepository.findById(answer.getQuestion().getQuestionId()).orElse(null);
         if (question == null) {
             return ResponseEntity.badRequest().build();
@@ -112,7 +109,6 @@ public class AnswerController {
         Set<Answer> answerSet = question.getAnswers();
         if(answerSet == null || answerSet.size() == 0){
             question.setAnswered(false);
-            System.out.println(question);
             questionRepository.save(question);
         }
 

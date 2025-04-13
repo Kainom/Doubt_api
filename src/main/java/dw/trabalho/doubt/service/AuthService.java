@@ -26,7 +26,7 @@ public class AuthService {
 
         if (user == null) {
             user = userRepository.findByUsername(userPar.getEmail());
-            if (user == null){
+            if (user == null) {
                 throw new RuntimeException("user not found");
             }
         }
@@ -35,9 +35,7 @@ public class AuthService {
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
 
-        System.out.println("Hello World");
         if (!passwordEncoder.matches(userPar.getPassword(), user.getPassword())) {
-            System.out.println(user.getPassword());
             throw new RuntimeException("Invalid password");
         }
 

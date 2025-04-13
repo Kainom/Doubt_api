@@ -85,7 +85,6 @@ public class QuestionController {
     @GetMapping("/{id}")
     public ResponseEntity<List<QuestionAllDto>> questionByTitle(@RequestParam String search, @PathVariable Long id) {
         List<Question> questions = questionRepository.findQuestionsByTitleOrTag(search, id);
-        System.out.println(search);
         if (questions.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -124,7 +123,6 @@ public class QuestionController {
     @PostMapping("/")
     public ResponseEntity<?> createQuestion(@RequestBody Question question) {
 
-        System.out.println(question);
         if (question.getTitle().equals("") || question.getDescription().equals(""))
             return ResponseEntity.badRequest().body("Title and description cannot be null or empty");
 
@@ -141,7 +139,6 @@ public class QuestionController {
                 question.addTag(tag);
             }
         }
-        System.out.println(question.getTags().size());
         // existingQuestion.getTags().add(tagRepository.findByTagName(requestDto.getTagName()));
 
         question.setTimestamp(new Date());
@@ -168,7 +165,6 @@ public class QuestionController {
     public ResponseEntity<?> addTagToQuestion(@RequestBody TagAdditionRequestDto requestDto) {
         Question existingQuestion = questionRepository.findById(requestDto.getQuestionId()).orElse(null);
 
-        System.out.println(requestDto);
         if (existingQuestion == null)
             return ResponseEntity.notFound().build();
 

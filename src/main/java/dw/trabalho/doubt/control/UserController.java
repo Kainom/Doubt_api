@@ -50,20 +50,18 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@RequestBody User user) {
         try {
 
-            System.out.println(user);
             auth.encoder(user);
             if (rep.findByEmail(user.getEmail()) != null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             if (rep.findByUsername(user.getUsername()) != null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            
-            if(user.getPassword().equals(""))
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            
-            if(user.getEmail().equals(""))
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+            if (user.getPassword().equals(""))
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            if (user.getEmail().equals(""))
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             User newUser = rep.save(
                     new User(
